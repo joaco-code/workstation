@@ -353,6 +353,7 @@ Para un nuevo proyecto:
 
 Instalación de Python, gestión de versiones, entornos virtuales y preparación para automatización, IA y scripting.
 
+Nota (2026-08): pnpm init con pnpm 11.18 puede generar un bloque devEngines.packageManager.version con un rango (^11.18.0) que provoca un error al ejecutar pnpm add. Como solución temporal, eliminar ese bloque o reemplazar la versión por una versión exacta.
 ---
 
 # Historial
