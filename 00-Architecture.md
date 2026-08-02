@@ -31,7 +31,9 @@ Nunca se crean contenedores manualmente.
 
 Todo debe poder reconstruirse ejecutando:
 
+```bash
 docker compose up -d
+```
 
 ---
 
@@ -39,7 +41,7 @@ docker compose up -d
 
 La fuente de verdad siempre será:
 
-docker-compose.yml
+`docker-compose.yml`
 
 Portainer únicamente administra e inspecciona.
 
@@ -53,7 +55,7 @@ Nunca se almacenarán datos dentro de los contenedores.
 
 Todos los datos vivirán en:
 
-~/docker/data
+`~/docker/data`
 
 Los contenedores pueden eliminarse sin perder información.
 
@@ -63,7 +65,7 @@ Los contenedores pueden eliminarse sin perder información.
 
 La infraestructura se divide en cuatro grandes áreas.
 
-Infrastructure
+### Infrastructure
 
 Servicios necesarios para administrar la plataforma.
 
@@ -75,7 +77,7 @@ Ejemplos:
 
 ---
 
-Databases
+### Databases
 
 Motores de bases de datos.
 
@@ -89,7 +91,7 @@ Ejemplos:
 
 ---
 
-Automation
+### Automation
 
 Herramientas de automatización.
 
@@ -99,7 +101,7 @@ Ejemplos:
 
 ---
 
-AI
+### AI
 
 Servicios relacionados con IA.
 
@@ -114,6 +116,7 @@ Ejemplos:
 
 # Estructura
 
+```text
 ~/docker
 │
 ├── stacks
@@ -155,6 +158,7 @@ Ejemplos:
     ├── scripts
     ├── templates
     └── networks
+```
 
 ---
 
@@ -162,7 +166,7 @@ Ejemplos:
 
 Existe una única red principal:
 
-goethe-network
+`goethe-network`
 
 Todos los servicios se conectan a ella.
 
@@ -176,15 +180,19 @@ Nunca mediante direcciones IP.
 
 Cada stack puede iniciarse completo:
 
+```bash
 docker compose up -d
+```
 
 o parcialmente:
 
+```bash
 docker compose up -d sqlserver
 
 docker compose up -d redis
 
 docker compose up -d mongodb
+```
 
 No es necesario ejecutar todos los servicios simultáneamente.
 
@@ -194,7 +202,7 @@ No es necesario ejecutar todos los servicios simultáneamente.
 
 Toda la persistencia se encuentra en:
 
-~/docker/data
+`~/docker/data`
 
 Las carpetas data nunca se versionan en Git.
 
@@ -220,11 +228,9 @@ No se versiona:
 
 Todos los stacks contienen:
 
-docker-compose.yml
-
-.env
-
-README.md
+- `docker-compose.yml`
+- `.env`
+- `README.md`
 
 ---
 
