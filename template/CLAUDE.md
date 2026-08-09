@@ -3,7 +3,7 @@
 name: Claude Project Instructions
 version: 1.0.0
 status: Approved
-owner: Platform Engineering
+owner Platform Engineering
 last_review: 2026-08-06
 -----------------------
 
