@@ -148,7 +148,7 @@ git config --global color.ui auto
 ## Pull
 
 ```bash
-git config --global pull.rebase false
+git config --global pull.rebase true
 ```
 
 ---
