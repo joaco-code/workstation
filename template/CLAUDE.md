@@ -1,12 +1,3 @@
----
-
-name: Claude Project Instructions
-version: 1.0.0
-status: Approved
-owner Platform Engineering
-last_review: 2026-08-06
------------------------
-
 # CLAUDE.md
 
 ## Project Overview
@@ -171,3 +162,12 @@ The objective is to continuously improve the project while preserving architectu
 Claude assists engineering.
 
 Humans remain responsible for all technical and strategic decisions.
+
+---
+
+name: Claude Project Instructions
+version: 1.0.0
+status: Approved
+owner Platform Engineering
+last_review: 2026-08-06
+-----------------------
