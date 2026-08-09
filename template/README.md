@@ -1,12 +1,3 @@
----
-
-name: Project Template
-version: 1.0.0
-status: Approved
-owner: Platform Engineering
-last_review: 2026-08-06
------------------------
-
 # Project Template
 
 ## 1. Purpose
@@ -269,5 +260,12 @@ It establishes a consistent engineering environment where documentation, archite
 By standardizing project organization, the template enables engineers and AI assistants to work with predictable structures, reusable workflows and shared engineering practices across every project developed within the platform.
 
 ---
+
+name: Project Template
+version: 1.0.0
+status: Approved
+owner: Platform Engineering
+last_review: 2026-08-06
+-----------------------
 
 End of Document.
