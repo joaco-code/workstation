@@ -119,6 +119,13 @@ Ejemplos:
 ```text
 ~/docker
 │
+├── ai
+│   ├── README.md
+│   ├── claude-roadmap.md
+│   ├── core
+│   ├── execution
+│   └── knowledge
+│
 ├── stacks
 │   ├── infrastructure
 │   │   ├── docker-compose.yml
@@ -148,16 +155,19 @@ Ejemplos:
 │   ├── cassandra
 │   ├── n8n
 │   ├── ollama
+│   ├── open-webui
 │   ├── portainer
-│   └── ...
+│   ├── qdrant
+│   └── langfuse
 │
 ├── docs
 │
 └── shared
     ├── backups
+    ├── networks
     ├── scripts
     ├── templates
-    └── networks
+    └── volumes
 ```
 
 ---
