@@ -1,0 +1,407 @@
+# SQL Server local — Infraestructura de workstation
+
+## Propósito
+
+Esta infraestructura proporciona una instancia independiente de SQL Server para:
+
+- pruebas locales;
+- desarrollo de proyectos que no necesariamente serán desplegados en Azure;
+- prácticas educativas;
+- demostraciones de SQL Server y SQL Server Management Studio (SSMS).
+
+La infraestructura es independiente de cualquier proyecto de software.
+
+Los proyectos deben conectarse a esta instancia cuando necesiten una base SQL local, pero no deben administrar ni modificar la infraestructura desde sus propios repositorios.
+
+---
+
+## Ubicación
+
+La infraestructura se encuentra en:
+
+```text
+~/docker/stacks/databases/
+```
+
+Estructura:
+
+```text
+databases/
+├── .env
+├── .gitignore
+├── README.md
+├── docker-compose.yml
+└── SQL-SERVER-LOCAL.md
+```
+
+---
+
+## Plataforma
+
+### Host
+
+- Windows
+- WSL2
+- Ubuntu 26.04 LTS
+
+### Docker
+
+- Docker Engine / Docker Desktop
+- Docker Compose
+
+### SQL Server
+
+- SQL Server 2025
+- Developer Edition
+- Linux container
+- Imagen:
+
+```text
+mcr.microsoft.com/mssql/server:2025-latest
+```
+
+La versión validada durante la instalación fue:
+
+```text
+Microsoft SQL Server 2025 (RTM-CU7)
+17.0.4065.4 (X64)
+Enterprise Developer Edition
+```
+
+---
+
+## Contenedor
+
+Nombre:
+
+```text
+local-sqlserver
+```
+
+Servicio Compose:
+
+```text
+sqlserver
+```
+
+Estado validado:
+
+```text
+healthy
+```
+
+---
+
+## Red
+
+SQL Server se publica únicamente en localhost:
+
+```text
+127.0.0.1:1433
+```
+
+No se publica directamente sobre todas las interfaces de red.
+
+Conexión desde Windows:
+
+```text
+localhost,1433
+```
+
+Conexión TCP:
+
+```text
+127.0.0.1:1433
+```
+
+---
+
+## Persistencia
+
+Los datos se almacenan en un Docker named volume:
+
+```text
+sqlserver_data
+```
+
+Montaje dentro del contenedor:
+
+```text
+/var/opt/mssql
+```
+
+El volumen sobrevive a:
+
+```bash
+docker compose down
+```
+
+y a la recreación del contenedor.
+
+No debe utilizarse:
+
+```bash
+docker compose down -v
+```
+
+salvo que se quiera eliminar deliberadamente toda la información almacenada en la instancia.
+
+---
+
+## Credenciales
+
+La contraseña del usuario `sa` se almacena localmente en:
+
+```text
+.env
+```
+
+El archivo `.env`:
+
+- no debe entrar en Git;
+- no debe copiarse a repositorios de proyectos;
+- no debe incluirse en documentación;
+- no debe compartirse por chat;
+- no debe publicarse.
+
+La documentación solo describe dónde se encuentra la credencial, nunca su valor.
+
+---
+
+## Healthcheck
+
+El contenedor utiliza un healthcheck mediante `sqlcmd`.
+
+Consulta utilizada:
+
+```sql
+SELECT 1
+```
+
+El estado esperado es:
+
+```text
+healthy
+```
+
+Puede verificarse mediante:
+
+```bash
+docker compose ps
+```
+
+o:
+
+```bash
+docker inspect local-sqlserver \
+  --format '{{.State.Health.Status}}'
+```
+
+---
+
+## Verificación realizada
+
+### SQL Server responde
+
+Se verificó mediante `sqlcmd` dentro del contenedor.
+
+Resultado:
+
+```text
+SQL Server 2025
+RTM-CU7
+17.0.4065.4
+```
+
+### Puerto
+
+Se verificó:
+
+```bash
+nc -zv 127.0.0.1 1433
+```
+
+Resultado:
+
+```text
+Connection to 127.0.0.1 1433 port [tcp/ms-sql-s] succeeded!
+```
+
+### Base de prueba
+
+Se creó:
+
+```text
+LocalInfrastructureTest
+```
+
+con la tabla:
+
+```text
+TestPersistence
+```
+
+y el registro:
+
+```text
+Id: 1
+Message: Persistence OK
+```
+
+### Persistencia
+
+Se verificó que:
+
+1. SQL Server estaba funcionando.
+2. Se creó una base de datos.
+3. Se creó una tabla.
+4. Se insertó información.
+5. Se detuvo y eliminó el contenedor.
+6. Se volvió a crear el contenedor.
+7. La base y los datos continuaron disponibles.
+
+Resultado:
+
+```text
+Persistence OK
+```
+
+**Persistencia validada.**
+
+---
+
+## Operación básica
+
+### Iniciar
+
+```bash
+cd ~/docker/stacks/databases
+docker compose up -d
+```
+
+### Ver estado
+
+```bash
+docker compose ps
+```
+
+### Ver logs
+
+```bash
+docker compose logs -f sqlserver
+```
+
+### Detener
+
+```bash
+docker compose stop
+```
+
+### Recrear contenedor sin eliminar datos
+
+```bash
+docker compose down
+docker compose up -d
+```
+
+### Eliminar contenedor y datos
+
+```bash
+docker compose down -v
+```
+
+Esta última operación es destructiva para las bases almacenadas en el volumen.
+
+---
+
+## Conexión
+
+### Desde SSMS
+
+Servidor:
+
+```text
+localhost,1433
+```
+
+Autenticación:
+
+```text
+SQL Server Authentication
+```
+
+Usuario:
+
+```text
+sa
+```
+
+Contraseña:
+
+```text
+valor de MSSQL_SA_PASSWORD en .env
+```
+
+### Desde sqlcmd
+
+Ejemplo:
+
+```bash
+docker exec local-sqlserver \
+  /opt/mssql-tools18/bin/sqlcmd \
+  -S localhost \
+  -U sa \
+  -P "$(grep '^MSSQL_SA_PASSWORD=' .env | cut -d= -f2-)" \
+  -C \
+  -Q "SELECT @@VERSION;"
+```
+
+---
+
+## Independencia de proyectos
+
+Esta instancia **no pertenece a `goethe-reservas` ni a ningún otro proyecto**.
+
+No debe incluirse dentro de:
+
+```text
+~/projects/<proyecto>/
+```
+
+La infraestructura pertenece al entorno de desarrollo de la workstation:
+
+```text
+~/docker/stacks/databases/
+```
+
+Los proyectos solamente consumen el servicio.
+
+Esto permite:
+
+- reutilizar la instancia entre proyectos;
+- enseñar SQL Server sin depender de un proyecto específico;
+- eliminar o recrear proyectos sin afectar las bases locales;
+- mantener separada la infraestructura de las aplicaciones.
+
+---
+
+## Estado
+
+Fecha de validación:
+
+```text
+2026-08-10
+```
+
+Estado:
+
+```text
+SQL Server local operativo
+```
+
+Próximo paso:
+
+```text
+Instalar SQL Server Management Studio (SSMS) en Windows
+y validar conexión a localhost,1433.
+```
