@@ -1,14 +1,3 @@
-Sí. Conviene documentarlo **antes de instalar SSMS**, porque así dejamos registrado el estado validado de la infraestructura y después agregamos la parte de conexión desde Windows.
-
-Crearía:
-
-```text
-~/docker/stacks/databases/SQL-SERVER-LOCAL.md
-```
-
-Contenido:
-
-````markdown
 # SQL Server local — Infraestructura de workstation
 
 ## Propósito
