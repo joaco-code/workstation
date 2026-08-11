@@ -111,22 +111,25 @@ La infraestructura permanece separada:
 
 ## SQL Server
 
-La instancia principal está documentada en:
+## Acceso desde Windows
 
-```text
-SQL-SERVER-LOCAL.md
-```
+La instancia fue validada correctamente desde Windows utilizando SQL Server
+Management Studio (SSMS).
 
-Consultar ese documento para:
+Configuración utilizada:
 
-- configuración;
-- credenciales;
-- persistencia;
-- healthcheck;
-- conexión;
-- operación;
-- recuperación;
-- validaciones realizadas.
+
+Servidor: tcp:127.0.0.1,1433
+Autenticación: SQL Server Authentication
+Usuario: sa
+Cifrado: Optional
+Trust Server Certificate: habilitado
+
+La conexión mediante tcp:127.0.0.1,1433 fue exitosa.
+
+Se utiliza explícitamente 127.0.0.1 para evitar problemas de resolución de
+localhost hacia IPv6 (::1) en determinados clientes.
+
 
 ---
 
@@ -217,13 +220,17 @@ Validaciones realizadas:
 - creación de tablas;
 - inserción y consulta de datos;
 - persistencia después de recrear el contenedor.
+- conexión desde Windows mediante SQL Server Management Studio (SSMS);
+- autenticación SQL mediante el usuario `sa`;
+- conexión validada utilizando `tcp:127.0.0.1,1433`.
 
 ---
 
 ## Próximos pasos
 
-1. Instalar SQL Server Management Studio (SSMS) en Windows.
-2. Conectar SSMS a `localhost,1433`.
-3. Validar autenticación desde Windows.
-4. Crear una base de datos de práctica.
-5. Documentar el flujo de uso para alumnos.
+1. Documentar la conexión desde Windows mediante SSMS.
+2. Definir estrategia de backup y restore de la infraestructura local.
+3. Definir procedimiento de actualización de la imagen de SQL Server.
+4. Definir procedimiento de recuperación ante pérdida del contenedor.
+5. Crear una base de datos de práctica cuando exista una necesidad concreta.
+6. Documentar el flujo de uso para alumnos, si corresponde.
