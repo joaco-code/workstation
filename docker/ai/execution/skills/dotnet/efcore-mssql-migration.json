@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "efcore_mssql_migration",
+  "description": "Genera entidades, DbContext y migraciones en EF Core 10 para MSSQL siguiendo la arquitectura de los satélites del colegio y preparando la tabla para integración con DWH.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "bounded_context": {
+        "type": "string",
+        "enum": ["ATS", "Admisiones", "ReservasEspacios", "MapasAprendizaje"],
+        "description": "El sistema satélite al que pertenece la entidad."
+      },
+      "entity_name": {
+        "type": "string",
+        "description": "Nombre de la entidad en PascalCase (ej: Candidato, SolicitudAdmision)."
+      },
+      "properties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "type": { "type": "string", "example": "string, int, DateTime, decimal" },
+            "is_nullable": { "type": "boolean" },
+            "is_dwh_key": { "type": "boolean", "description": "Si el campo es clave de trazabilidad para el Data Warehouse." }
+          },
+          "required": ["name", "type"]
+        }
+      },
+      "include_audit_columns": {
+        "type": "boolean",
+        "default": true,
+        "description": "Añade CreatedAt, CreatedBy, UpdatedAt, UpdatedBy y IsDeleted."
+      }
+    },
+    "required": ["bounded_context", "entity_name", "properties"]
+  }
+}

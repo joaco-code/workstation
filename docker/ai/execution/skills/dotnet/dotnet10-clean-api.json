@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "dotnet10_clean_api_endpoint",
+  "description": "Crea la estructura de Vertical Slices / CQRS para .NET 10 (Endpoints, Command/Query, FluentValidation) con soporte para Azure SQL.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "feature_name": {
+        "type": "string",
+        "description": "Nombre de la funcionalidad (ej: RegistrarPostulante, ReservarAula)."
+      },
+      "http_method": {
+        "type": "string",
+        "enum": ["GET", "POST", "PUT", "DELETE", "PATCH"]
+      },
+      "route": {
+        "type": "string",
+        "example": "/api/v1/admisiones/solicitudes"
+      },
+      "use_result_pattern": {
+        "type": "boolean",
+        "default": true,
+        "description": "Utiliza Result<T> para evitar lanzar excepciones en el flujo de dominio."
+      }
+    },
+    "required": ["feature_name", "http_method", "route"]
+  }
+}

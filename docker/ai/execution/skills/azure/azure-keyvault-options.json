@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "azure_keyvault_options_binding",
+  "description": "Genera el código en C# (.NET 10) para vincular de forma segura los secretos de Azure Key Vault con el patrón Options (IOptionsSnapshot / IOptionsMonitor) utilizando Managed Identity (DefaultAzureCredential).",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "bounded_context": {
+        "type": "string",
+        "enum": ["ATS", "Admisiones", "ReservasEspacios", "MapasAprendizaje"],
+        "description": "El sistema satélite que consumirá los secretos."
+      },
+      "options_class_name": {
+        "type": "string",
+        "description": "Nombre de la clase C# que mapeará las opciones (ej: DatabaseSettings, JwtOptions)."
+      },
+      "secret_names": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "Lista de nombres de claves dentro del Key Vault (ej: SqlConnectionString, ApiKey)."
+      },
+      "use_managed_identity": {
+        "type": "boolean",
+        "default": true,
+        "description": "Forzar la autenticación mediante Azure Managed Identity sin usar ClientSecret en desarrollo/producción."
+      }
+    },
+    "required": ["bounded_context", "options_class_name", "secret_names"]
+  }
+}

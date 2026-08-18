@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "mcp_tool_wrapper",
+  "description": "Toma un contrato OpenAPI/Swagger o un método C# de .NET 10 y genera la especificación formal de herramienta para el servidor MCP (Model Context Protocol) de Anthropic.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "source_type": {
+        "type": "string",
+        "enum": ["OpenAPI_Endpoint", "CSharp_Method", "Custom_Script"],
+        "description": "El origen de la función que se desea adaptar como herramienta MCP."
+      },
+      "tool_name": {
+        "type": "string",
+        "description": "Identificador en snake_case para la herramienta dentro del protocolo MCP."
+      },
+      "tool_description": {
+        "type": "string",
+        "description": "Explicación detallada del propósito de la herramienta para que el modelo la active en el momento correcto."
+      },
+      "input_schema": {
+        "type": "object",
+        "description": "El esquema JSON de entrada con las propiedades y validaciones de la herramienta."
+      }
+    },
+    "required": ["source_type", "tool_name", "tool_description", "input_schema"]
+  }
+}

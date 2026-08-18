@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "dwh_staging_contract",
+  "description": "Diseña la vista o tabla de Staging en MSSQL para extraer datos delta (CDC/Temporal Tables) desde el satélite hacia el Data Warehouse central.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "source_table": { "type": "string" },
+      "target_dwh_fact_or_dim": { "type": "string", "example": "Fact_Postulaciones" },
+      "sync_strategy": {
+        "type": "string",
+        "enum": ["CDC_ChangeDataCapture", "TemporalTable", "WatermarkTimestamp"]
+      }
+    },
+    "required": ["source_table", "target_dwh_fact_or_dim", "sync_strategy"]
+  }
+}

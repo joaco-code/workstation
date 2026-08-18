@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "mssql_query_optimizer",
+  "description": "Analiza y optimiza consultas T-SQL para MSSQL en los sistemas satélites y DWH. Evalúa planes de ejecución, sugiere índices no agrupados (non-clustered) y detecta fragmentación o lecturas sucias.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "raw_query": {
+        "type": "string",
+        "description": "La consulta T-SQL o procedimiento almacenado a analizar."
+      },
+      "target_table": {
+        "type": "string",
+        "description": "Nombre de la tabla principal sobre la que se ejecuta la consulta."
+      },
+      "check_missing_indexes": {
+        "type": "boolean",
+        "default": true,
+        "description": "Genera script DDL con las sugerencias de índices omitidos basados en DMV (sys.dm_db_missing_index_details)."
+      },
+      "isolation_level_check": {
+        "type": "boolean",
+        "default": true,
+        "description": "Verifica el nivel de aislamiento (ej. READ COMMITTED SNAPSHOT / WITH (NOLOCK)) para evitar bloqueos en tablas de alto tráfico."
+      }
+    },
+    "required": ["raw_query", "target_table"]
+  }
+}

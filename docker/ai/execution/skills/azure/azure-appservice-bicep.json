@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "azure_appservice_bicep",
+  "description": "Genera la plantilla IaC en Bicep para desplegar un App Service Linux preparado para runtime .NET 10, vinculándolo con Azure SQL, Key Vault e identidad administrada del sistema (SystemAssigned).",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "app_name": {
+        "type": "string",
+        "description": "Nombre base del recurso en Azure (ej: app-satelite-admisiones-prod)."
+      },
+      "environment": {
+        "type": "string",
+        "enum": ["dev", "staging", "prod"],
+        "description": "Entorno de despliegue para determinar el SKU y configuración de recursos."
+      },
+      "sku_tier": {
+        "type": "string",
+        "enum": ["B1", "B2", "S1", "P1v3", "P2v3"],
+        "default": "B1",
+        "description": "Nivel de precio/rendimiento del App Service Plan."
+      },
+      "dotnet_version": {
+        "type": "string",
+        "default": "DOTNET|10.0",
+        "description": "Versión del runtime de Linux en Azure App Service."
+      },
+      "enable_system_identity": {
+        "type": "boolean",
+        "default": true,
+        "description": "Habilita la identidad administrada asignada por el sistema para autenticación sin contraseña."
+      }
+    },
+    "required": ["app_name", "environment", "sku_tier"]
+  }
+}
